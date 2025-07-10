@@ -44,9 +44,13 @@ def generate_ics():
     text = data.get('text', '')
     try:
         event_data = nlu_parse(text)
-except Exception as e:
-    import traceback
-    return jsonify({'error': '解析失败', 'detail': str(e), 'trace': traceback.format_exc()}), 500
+        # --- 强健性校验 ---
+        if "YYYY" in event_data["dtstart"] or "YYYY" in event_data["dtend"]:
+            return jsonify({'error': '解析出的时间格式不对，请重试'}), 400
+    except Exception as e:
+        return jsonify({'error': '解析失败', 'detail': str(e)}), 400
+    # ...后续正常逻辑...
+mat_exc()}), 500
 
 
     cal = Calendar()
