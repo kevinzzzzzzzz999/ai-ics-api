@@ -49,9 +49,6 @@ def generate_ics():
             return jsonify({'error': '解析出的时间格式不对，请重试'}), 400
     except Exception as e:
         return jsonify({'error': '解析失败', 'detail': str(e)}), 400
-    # ...后续正常逻辑...
-mat_exc()}), 500
-
 
     cal = Calendar()
     event = Event()
@@ -64,7 +61,7 @@ mat_exc()}), 500
         event.add('rrule', event_data["rrule"])
     if event_data.get("note"):
         event.add('description', event_data["note"])
-    for alarm in event_data["alarms"]:
+    for alarm in event_data.get("alarms", []):
         trigger_str = alarm["trigger"]
         if "天" in trigger_str:
             value = int(trigger_str.replace("提前", "").replace("天", ""))
