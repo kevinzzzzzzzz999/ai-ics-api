@@ -1,0 +1,4 @@
+flask
+openai
+icalendar
+flask-cors
